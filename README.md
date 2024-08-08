@@ -1,7 +1,4 @@
-# SimpleClock-CountdownTimer
-<br>
-<br>
-<h1>Resumo do Repositório: Relógio Simples</h1>
+<h1><strong>Resumo do Repositório: Relógio Simples</strong></h1>
 
 <h2>Descrição do Projeto</h2>
 <p>O repositório em questão é um projeto de um relógio simples que permite ao usuário inserir uma data futura.</p>
