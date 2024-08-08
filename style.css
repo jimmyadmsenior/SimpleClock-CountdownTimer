@@ -1,96 +1,54 @@
-html {
-	font-size: 62.5%;
-	font-family: 'Montserrat', sans-serif;
-	font-weight: 300;
-	line-height: 1rem;
-	letter-spacing: .08rem;
-}
+// load event listeners
+loadEventListeners();
 
-body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-flow: column;
-	font-size: 1.4rem;
-	font-weight: inherit;
-	background-color: #1fc69d;
-	height: 100vh;
-	width: 100vw;
-}
+function loadEventListeners() {
+	document.addEventListener('DOMContentLoaded', function() { calcTime(); });
+};
 
-.container {
-	position: relative;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	height: 20rem;
-	width: 60rem;
-	background-color: transparent;
-	border-radius: 3px;
-	box-shadow: none;
-}
+var timeTo = document.getElementById('time-to').value,
+		date,
+		now = new Date(),
+		newYear = new Date('1.1.2020').getTime(),
+		startTimer = '';
 
-.clock-column {
-	margin-right: 7rem;
-	text-align: center;
-	position: relative;
+// calculate date, hour, minute and second
+function calcTime(dates) {
+	//ui variables
+	clearInterval(startTimer);
 
-	&::after {
-		content: ':';
-		display: block;
-		height: .25rem;
-		width: .25rem;
-		font-size: 36px;
-		font-weight: 200;
-		color: #131313;
-		position: absolute;
-		top: 60px;
-		right: -35px;
+	if(typeof(dates) == 'undefined'){
+		date = new Date(newYear).getTime();
+	}else {
+		date = new Date(dates).getTime();
 	}
-	&:last-child {
-		&::after {
-			display: none;
+
+	function updateTimer(date){
+
+		var now = new Date().getTime();
+		var distance = date - now;
+
+		// Time calculations for days, hours, minutes and seconds
+		var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+		var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+		// select element
+		document.querySelector('.clock-day').innerHTML = days;
+		document.querySelector('.clock-hours').innerHTML = hours;
+		document.querySelector('.clock-minutes').innerHTML = minutes;
+		document.querySelector('.clock-seconds').innerHTML = seconds;
+
+		if(now >= date){
+			clearInterval(startTimer);
+			document.querySelector('.clock-day').innerHTML = 'D';
+			document.querySelector('.clock-hours').innerHTML = 'O';
+			document.querySelector('.clock-minutes').innerHTML = 'N';
+			document.querySelector('.clock-seconds').innerHTML = 'E';
 		}
 	}
+
+	startTimer = setInterval(function() { updateTimer(date); }, 1000);
+
 }
 
-.clock-column:last-child {
-	margin-right: 0;
-}
-
-.clock-label {
-	padding-top: 10px;
-	text-transform: uppercase;
-	color: #131313;
-	font-size: 14px;
-	text-align: center;
-	border-top: 1px solid rgba(19, 19, 19, 0.5);
-}
-
-.clock-timer {
-	color: #131313;
-	font-size: 36px;
-	line-height: 1;
-}
-.clock-input {
-	clear: both;
-	text-align: center;
-	max-width: 500px;
-	width: 100%;
-	margin: 0 auto 10px;
-}
-input#time-to {
-	padding: 5px;
-	border: 0;
-	border-radius: 3px;
-	font-size: 16px;
-	font-family: monospace;
-	text-align: center;
-	color: #010101;
-	background-color: #fff;
-}
-.done {
-	color: #fff;
-	font-weight: 600;
-}
